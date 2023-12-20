@@ -253,6 +253,7 @@ void runTest(const string& name,
         resultDB.AddResult(name, sizeStr, "GFLOPS", Gflops);
         resultDB.AddResult(name+"_PCIe", sizeStr, "GFLOPS", gflopsPCIe);
         resultDB.AddResult(name+"_Parity", sizeStr, "N", transfer_time*1e9f / nsec);
+        resultDB.AddResult(name+"_KT", sizeStr, "s", transfer_time);
 
         // time ifft kernel
         transform(work, n_ffts, fftEvent, ifftKrnl, queue);
@@ -265,6 +266,7 @@ void runTest(const string& name,
         resultDB.AddResult(name+"-INV_PCIe", sizeStr, "GFLOPS", gflopsPCIe);
         resultDB.AddResult(name+"-INV_Parity", sizeStr, "N",
             transfer_time*1e9f / nsec);
+        resultDB.AddResult(name+"-INV_KT", sizeStr, "s", transfer_time);
         // check kernel
         int failed = check(work, chk, half_n_ffts, half_n_cmplx,
             chkKrnl, queue);
