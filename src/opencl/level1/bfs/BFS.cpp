@@ -450,7 +450,7 @@ void RunTest1(cl_device_id device, cl_context context, cl_command_queue queue,
             totalKernelTime *= 1.e-9;
             totalTransferTime *= 1.e-9;
             resultDB.AddResult("BFS_total",atts,"s",result_time);
-            resultDB.AddResult("BFS_kernel_time",atts,"s",totalKernelTime);
+            resultDB.AddResult("BFS_kernel_time",atts,"ms",totalKernelTime * 1e3);
             resultDB.AddResult("BFS",atts,"GB/s",gbytes/totalKernelTime);
             resultDB.AddResult("BFS_PCIe",atts,"GB/s",
                     gbytes/(totalKernelTime+totalTransferTime));

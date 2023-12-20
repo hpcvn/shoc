@@ -428,6 +428,7 @@ RunBenchmark(cl_device_id devid,
             double bdwth = (numMaxFloats*sizeof(float)*3) /
                      double(lastEv->EndTime(2) - minQueueTime);
             resultDB.AddResult("TriadBdwth", sizeStr, "GB/s", bdwth);
+            resultDB.AddResult("Triad_KT", sizeStr, "ms", (lastEv->EndTime(2) - minQueueTime) * (1e-6));
 
             // Checking memory for correctness. The two halves of the array
             // should have the same results.

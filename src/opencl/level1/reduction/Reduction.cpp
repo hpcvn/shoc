@@ -346,6 +346,7 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
                 gbytes / (avgTime + totalTransfer));
         resultDB.AddResult(testName+"_Parity", atts, "N",
                 totalTransfer / avgTime);
+        resultDB.AddResult(testName + "_KT", atts, "ms", avgTime * 1e3);
     }
 
     err = clEnqueueUnmapMemObject(queue, h_i, h_idata, 0, NULL, NULL);

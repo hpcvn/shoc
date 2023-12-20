@@ -382,6 +382,7 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
                 gbs / (avgTime + totalTransfer));
         resultDB.AddResult(testName+"_Parity", atts, "N",
                 totalTransfer / avgTime);
+        resultDB.AddResult(testName+"_KT", atts, "ms", avgTime * 1e3);
     }
 
     // Clean up device memory

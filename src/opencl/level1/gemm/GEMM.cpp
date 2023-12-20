@@ -366,7 +366,7 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
                 flops / user_wait_time);
         resultDB.AddResult(testName+"-N_Parity", toString(N), "N",
                 transfer_time / gemm_pure_time);
-        resultDB.AddResult(testName+"-N_KT", toString(N), "s", gemm_pure_time * 1e-9);
+        resultDB.AddResult(testName+"-N_KT", toString(N), "ms", gemm_pure_time * 1e-6);
     }
 
     // Run NT
@@ -412,7 +412,7 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
                 flops / user_wait_time);
         resultDB.AddResult(testName+"-T_Parity", toString(N), "N",
                 transfer_time / gemm_pure_time);
-        resultDB.AddResult(testName+"-T_KT", toString(N), "s", gemm_pure_time * 1e-9);
+        resultDB.AddResult(testName+"-T_KT", toString(N), "ms", gemm_pure_time * 1e-6);
     }
 
     if (true) // pinned

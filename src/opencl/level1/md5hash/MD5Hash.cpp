@@ -723,6 +723,7 @@ RunBenchmark(cl_device_id dev,
         // Add the calculated performancethe results
         //
         resultDB.AddResult("MD5Hash", atts, "GHash/s", rate);
+        resultDB.AddResult("MD5Hash_KT", atts, "s", t);
 
         if (verbose)
         {

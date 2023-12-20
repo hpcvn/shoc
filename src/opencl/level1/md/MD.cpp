@@ -444,6 +444,7 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
                            (seconds + (transferTime / 1.e9)));
         resultDB.AddResult(testName+"_Parity", atts, "N",
                                     (transferTime / 1.e9) / seconds);
+        resultDB.AddResult(testName+"_KT", atts, "ms", seconds * 1e3);
     }
 
     // Clean up

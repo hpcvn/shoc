@@ -286,10 +286,12 @@ DoTest( std::string testName,
 
             // find and report the computation rate
             double gflops = (nflops / elapsedTime) / 1e9;
+            std::string experimentDescription = experimentDescriptionStr.str();
             resultDB.AddResult( testName,
-                                    experimentDescriptionStr.str(),
+                                    experimentDescription,
                                     "GFLOPS",
                                     gflops );
+            resultDB.AddResult(testName, experimentDescription, "ms", elapsedTime * 1e3);
             if( beVerbose )
             {
                 std::cout << "observed result, pass " << (pass + 1) << ":\n"

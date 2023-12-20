@@ -365,6 +365,9 @@ void ellPackTest(cl_device_id dev, cl_context ctx, string compileFlags,
         sprintf(benchName, "%s_PCIe", benchName);
         resultDB.AddResult(benchName, atts, "Gflop/s", gflop /
             (avgTime + iTransferTime + oTransferTime));
+        sprintf(benchName, "%sELLPACKR-%s_KT", padded ? "Padded_":"",
+                dpTest ? "DP":"SP");
+        resultDB.AddResult(benchName, atts, "ms", avgTime * 1e-6);
     }
 
     err = clReleaseProgram(prog);
@@ -641,6 +644,7 @@ void csrTest(cl_device_id dev, cl_context ctx, string compileFlags,
               gflop/(scalarKernelTime));
           resultDB.AddResult(testName+"_PCIe", atts, "Gflop/s",
               gflop / (scalarKernelTime+totalTransfer));
+          resultDB.AddResult(testName+"_KT", atts, "ms", scalarKernelTime * 1e-6);
       }
 
       // Clobber correct answer, so we can be sure the vector kernel is correct
@@ -717,6 +721,7 @@ void csrTest(cl_device_id dev, cl_context ctx, string compileFlags,
           resultDB.AddResult(testName, atts, "Gflop/s", gflop/vectorKernelTime);
           resultDB.AddResult(testName+"_PCIe", atts, "Gflop/s",
                             gflop/(vectorKernelTime+totalTransfer));
+          resultDB.AddResult(testName+"_KT", atts, "ms", vectorKernelTime *1e-6);
       }
 
       // Free device memory
