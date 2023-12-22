@@ -129,6 +129,7 @@ addBenchmarkSpecOptions(OptionParser &op)
 {
     op.addOption("iterations", OPT_INT, "8",
             "specify MD kernel iterations", 'r');
+    op.addOption("n_atoms", OPT_INT, "0", "number of atoms", 'a');
 }
 
 // ****************************************************************************

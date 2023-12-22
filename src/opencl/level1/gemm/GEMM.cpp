@@ -140,7 +140,7 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
     int N;
     if (op.getOptionInt("KiB") == 0)
     {
-        int probSizes[4] = { 1, 4, 8, 16 };
+        int probSizes[4] = { 1<<4, 1<<5, 1<<6, 1<<7 };
         N = probSizes[op.getOptionInt("size")-1] * 1024 / sizeof(T);
     } else {
         N = op.getOptionInt("KiB") * 1024 / sizeof(T);

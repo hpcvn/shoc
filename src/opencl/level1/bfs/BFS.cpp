@@ -43,6 +43,7 @@ void addBenchmarkSpecOptions(OptionParser &op)
             "vertex to start the traversal from");
     op.addOption("global-barrier", OPT_BOOL, "false",
             "enable the use of global barrier in UIUC BFS");
+    op.addOption("n_vertices", OPT_INT, "0", "specific number of vertices");
 }
 
 // ****************************************************************************
@@ -1347,17 +1348,20 @@ void RunBenchmark(cl_device_id device,
     {
         //Load simple k-way tree
         //prob size specifies number of vertices
-        cl_uint prob_sizes[4] = { 1000,10000,100000,1000000 };
+        cl_uint prob_sizes[4] = { 1<<26,1<<27,1<<28,1<<29 };
        
         //Check for a valid size option and exit if not found
-        if((op.getOptionInt("size") > 4) || (op.getOptionInt("size") <= 0))
-        {
-          cout<<"Please use a size between 1 and 4"<<endl;
-          cout<<"Exiting..."<<endl;
-          return;
-        }
+        if (op.getOptionInt("n_vertices") == 0) {
+                if((op.getOptionInt("size") > 4) || (op.getOptionInt("size") <= 0))
+                {
+                cout<<"Please use a size between 1 and 4"<<endl;
+                cout<<"Exiting..."<<endl;
+                return;
+                }
 
-        numVerts = prob_sizes[op.getOptionInt("size")-1];
+                numVerts = prob_sizes[op.getOptionInt("size")-1];
+        }
+        else numVerts = op.getOptionInt("n_vertices");
         int avg_degree = op.getOptionInt("degree");
         if(avg_degree<1)
             avg_degree=1;

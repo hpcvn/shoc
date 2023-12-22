@@ -298,6 +298,8 @@ std::string AsHex(unsigned char *vals, int len)
 void
 addBenchmarkSpecOptions(OptionParser &op)
 {
+    op.addOption("blength", OPT_INT, "0", "specific byte length");
+    op.addOption("vals_per_byte", OPT_INT, "0", "specific vals per byte");
 }
 
 // ****************************************************************************
@@ -559,14 +561,15 @@ RunBenchmark(cl_device_id dev,
              ResultDatabase &resultDB, OptionParser &op)
 {
     bool verbose = op.getOptionBool("verbose");
-
-    int size = op.getOptionInt("size");
-    if (size < 1 || size > 4)
-    {
-        cerr << "ERROR: Invalid size parameter\n";
-        return;
+    int size = 0;
+    if (op.getOptionInt("blength") == 0 || op.getOptionInt("vals_per_byte") == 0) {
+        size = op.getOptionInt("size");
+        if (size < 1 || size > 4)
+        {
+            cerr << "ERROR: Invalid size parameter\n";
+            return;
+        }
     }
-
     int err;
 
     // Program Setup
@@ -599,8 +602,8 @@ RunBenchmark(cl_device_id dev,
     const int sizes_byteLength[]  = { 7,  5,  6,  5};
     const int sizes_valsPerByte[] = {10, 35, 25, 70};
 
-    const int byteLength = sizes_byteLength[size-1];
-    const int valsPerByte = sizes_valsPerByte[size-1];
+    const int byteLength = size > 0 ? sizes_byteLength[size-1] : op.getOptionInt("blength");
+    const int valsPerByte = size > 0 ? sizes_valsPerByte[size-1] : op.getOptionInt("vals_per_byte");
 
     char atts[1024];
     sprintf(atts, "%dx%d", byteLength, valsPerByte);

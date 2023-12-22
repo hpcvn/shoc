@@ -38,6 +38,7 @@ void addBenchmarkSpecOptions(OptionParser &op)
                  "which stores the matrix in Matrix Market format");
     op.addOption("maxval", OPT_FLOAT, "10", "Maximum value for random "
                  "matrices");
+    op.addOption("n_size", OPT_INT, "0", "specific problem size");
 }
 
 // ****************************************************************************
@@ -965,15 +966,20 @@ RunBenchmark(cl_device_id dev,
                   OptionParser &op)
 {
     //create list of problem sizes
-    int probSizes[4] = {1024, 8192, 12288, 16384};
-    int sizeClass = op.getOptionInt("size") - 1;
+    int size = op.getOptionInt("n_size");
+    if (size == 0)
+    {
+        int probSizes[4] = {1024, 8192, 12288, 16384};
+        int sizeClass = op.getOptionInt("size") - 1;
+        size = probSizes[sizeClass];
+    }
 
     // Always run single precision test
     // OpenCL doesn't support templated kernels, so we have to use macros
     cout <<"Single precision tests:\n";
     string spMacros = "-DSINGLE_PRECISION ";
     RunTest<float, cl_float>
-        (dev, ctx, queue, resultDB, op, spMacros, probSizes[sizeClass]);
+        (dev, ctx, queue, resultDB, op, spMacros, size);
 
     // If double precision is supported, run the DP test
     if (checkExtension(dev, "cl_khr_fp64"))
@@ -981,14 +987,14 @@ RunBenchmark(cl_device_id dev,
         cout << "Double precision tests\n";
         string dpMacros = "-DK_DOUBLE_PRECISION ";
         RunTest<double, cl_double>
-            (dev, ctx, queue, resultDB, op, dpMacros, probSizes[sizeClass]);
+            (dev, ctx, queue, resultDB, op, dpMacros, size);
     }
     else if (checkExtension(dev, "cl_amd_fp64"))
     {
         cout << "Double precision tests\n";
         string dpMacros = "-DAMD_DOUBLE_PRECISION ";
         RunTest<double, cl_double>
-            (dev, ctx, queue, resultDB, op, dpMacros, probSizes[sizeClass]);
+            (dev, ctx, queue, resultDB, op, dpMacros, size);
     }
     else
     {

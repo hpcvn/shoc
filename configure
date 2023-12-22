@@ -4600,7 +4600,7 @@ fi
 # but it seems to require the rt library
 case $host in #(
   *-*-linux*) :
-    LIBS="$LIBS -lrt" ;; #(
+    LIBS="$LIBS  -L/usr/local/cuda/lib64 -lcudart" ;; #(
   *) :
 
  ;; #(

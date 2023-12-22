@@ -33,7 +33,7 @@ using namespace std;
 void
 addBenchmarkSpecOptions(OptionParser &op)
 {
-    op.addOption("MB", OPT_INT, "0", "data size (in megabytes)");
+    op.addOption("KB", OPT_INT, "0", "data size (in kilobytes)");
     op.addOption("use-native", OPT_BOOL, "false", "call native (HW) versions of sin/cos");
     op.addOption("dump-sp", OPT_BOOL, "false", "dump result after SP fft/ifft");
     op.addOption("dump-dp", OPT_BOOL, "false", "dump result after DP fft/ifft");
@@ -166,8 +166,8 @@ void runTest(const string& name,
 
     unsigned long bytes = 0;
 
-    if (op.getOptionInt("MB") == 0) {
-        int probSizes[4] = { 1, 8, 96, 256 };
+    if (op.getOptionInt("KB") == 0) {
+        int probSizes[4] = { 1<<10, 1<<11, 1<<12, 1<<13 };
     int sizeIndex = op.getOptionInt("size")-1;
     if (sizeIndex < 0 || sizeIndex >= 4) {
         cerr << "Invalid size index specified\n";
@@ -175,7 +175,7 @@ void runTest(const string& name,
     }
         bytes = probSizes[sizeIndex];
     } else {
-        bytes = op.getOptionInt("MB");
+        bytes = op.getOptionInt("KB");
     }
     // Convert to MB
     bytes *= 1024 * 1024;

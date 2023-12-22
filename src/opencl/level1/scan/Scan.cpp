@@ -94,6 +94,7 @@ void
 addBenchmarkSpecOptions(OptionParser &op)
 {
     op.addOption("iterations", OPT_INT, "256", "specify scan iterations");
+    op.addOption("MB", OPT_INT, "0", "specific problem size in MB");
 }
 
 // ****************************************************************************
@@ -227,11 +228,14 @@ void runTest(const string& testName, cl_device_id dev, cl_context ctx,
     }
 
     // Problem Sizes
-    int probSizes[4] = { 1, 8, 32, 64 };
-    int size = probSizes[op.getOptionInt("size")-1];
+    int size = op.getOptionInt("MB");
+    if (size == 0)
+    {
+        int probSizes[4] = { 1, 8, 32, 64 };
 
-    // Convert to MB
-    size = (size * 1024 * 1024) / sizeof(T);
+        size = probSizes[op.getOptionInt("size")-1];
+        size = (size * 1024 * 1024) / sizeof(T);
+    }
 
     // Create input data on CPU
     unsigned int bytes = size * sizeof(T);
